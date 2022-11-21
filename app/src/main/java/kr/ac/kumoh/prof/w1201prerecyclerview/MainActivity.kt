@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,9 +32,11 @@ class MainActivity : AppCompatActivity() {
         //model = ViewModelProvider(this)[ListViewModel::class.java]
 
 
-        model.getList().observe(this, Observer<ArrayList<String>> {
-            songAdapter.notifyDataSetChanged()
-        })
+        model.list.observe(this) {
+            // 좀더 구체적인 이벤트를 사용하라고 warning 나와서 변경함
+            //songAdapter.notifyDataSetChanged()
+            songAdapter.notifyItemRangeChanged(0, model.getSize())
+        }
 
         for (i in 1..3) {
             model.add("사랑에 연습이 있었다면")

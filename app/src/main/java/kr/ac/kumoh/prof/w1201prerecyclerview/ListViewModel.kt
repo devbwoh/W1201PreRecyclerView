@@ -6,17 +6,18 @@ import androidx.lifecycle.ViewModel
 
 class ListViewModel: ViewModel() {
     private val songs = ArrayList<String>()
-    val list = MutableLiveData<ArrayList<String>>()
+    private val _list = MutableLiveData<ArrayList<String>>()
+    val list: LiveData<ArrayList<String>>
+        get() = _list
+    //fun getList(): LiveData<ArrayList<String>> = list
 
     init {
-        list.value = songs
+        _list.value = songs
     }
-
-    fun getList(): LiveData<ArrayList<String>> = list
 
     fun add(song: String) {
         songs.add(song)
-        list.value = songs
+        _list.value = songs
     }
 
     fun getSong(i: Int) = songs[i]
